@@ -851,6 +851,15 @@ function enums()
 		YOUTUBE
 	}
 	
+	// Occlusion-culling rendering stages
+	enum e_occlusion_stage
+	{
+		OFF,
+		OCCLUDER,
+		QUERY,
+		CULL
+	}
+
 	// Render modes
 	enum e_render_mode
 	{
