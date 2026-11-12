@@ -18,6 +18,12 @@ function render_world_tl()
 	if (!app.place_tl_render && (placed || parent_is_placed))
 		return 0
 	
+	// Occlusion passes only include block classes and model body parts with verified opaque textures.
+	// Items, text, paths and particles can contain transparency or view-dependent geometry.
+	if ((render_mode = e_render_mode.OCCLUSION_DEPTH || render_mode = e_render_mode.OCCLUSION_QUERY) &&
+		(type != e_tl_type.BODYPART && type != e_tl_type.BLOCK && type != e_tl_type.SCENERY && type != e_tl_type.MODEL))
+		return 0
+	
 	// Invisible?
 	if (!render_visible)
 		return 0
