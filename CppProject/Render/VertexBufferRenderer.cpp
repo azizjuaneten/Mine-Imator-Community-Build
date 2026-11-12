@@ -20,6 +20,17 @@ namespace CppProject
 
 		Mesh<>* mesh = buffer->meshes[0];
 
+		// Cull single-mesh objects before adding them to a shared batch.
+		// Testing only the merged batch bounds keeps off-screen members alive
+		// whenever another member intersects the camera frustum.
+		if (buffer->meshes.size() == 1 && !mesh->bounds.empty)
+		{
+			Bounds worldBounds;
+			worldBounds.AddBounds(mesh->bounds, GFX->matrixM);
+			if (!GFX->IsVisible(worldBounds))
+				return;
+		}
+
 		// Max triangles exceeded
 		if (currentBatch->numObjects && currentBatch->mesh.numIndices + mesh->numIndices >= MAX_BATCH_INDICES)
 			SubmitBatch();
