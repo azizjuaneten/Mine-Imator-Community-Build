@@ -86,6 +86,8 @@ namespace CppProject
 		GFX->SubmitBatch();
 		if (stage == 1)
 		{
+			occlusionTested = 0;
+			occlusionCulled = 0;
 			occlusionResults.clear();
 			occlusionUsed.clear();
 			GFX->SetDepthTest(true);
@@ -198,6 +200,7 @@ namespace CppProject
 			GL_CHECK_ERROR();
 		#endif
 			occlusionPending.append(key);
+			occlusionTested++;
 			return;
 		}
 
@@ -205,7 +208,10 @@ namespace CppProject
 		{
 			const quint64 key = GetOcclusionKey(buffer);
 			if (occlusionResults.contains(key) && !occlusionResults.value(key))
+			{
+				occlusionCulled++;
 				return;
+			}
 		}
 
 		// Cull single-mesh objects before adding them to a shared batch.
