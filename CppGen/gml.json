@@ -526,6 +526,7 @@
         "sprite_exists": { "return": "bool", "args": [ "int" ] },
         "sprite_get_height": { "return": "int", "args": [ "int" ] },
         "sprite_get_number": { "return": "int", "args": [ "int" ] },
+        "sprite_is_opaque": { "return": "bool", "args": [ "int" ] },
         "sprite_get_texture": { "return": "int", "args": [ "int", "int" ] },
         "sprite_get_width": { "return": "int", "args": [ "int" ] },
         "sprite_set_offset": { "return": "void", "args": [ "int", "int", "int" ] },
