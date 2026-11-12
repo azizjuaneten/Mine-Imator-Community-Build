@@ -214,16 +214,13 @@ namespace CppProject
 			}
 		}
 
-		// Cull single-mesh objects before adding them to a shared batch.
-		// Testing only the merged batch bounds keeps off-screen members alive
-		// whenever another member intersects the camera frustum.
-		if (buffer->meshes.size() == 1 && !mesh->bounds.empty)
-		{
-			Bounds worldBounds;
-			worldBounds.AddBounds(mesh->bounds, GFX->matrixM);
-			if (!GFX->IsVisible(worldBounds))
-				return;
-		}
+		// Cull this object's full bounds before it joins a shared batch.
+		// Per-member testing prevents off-screen objects being kept by a visible neighbor.
+		Bounds objectBounds;
+		for (Mesh<>* objectMesh : buffer->meshes)
+			objectBounds.AddBounds(objectMesh->bounds, GFX->matrixM);
+		if (!objectBounds.empty && !GFX->IsVisible(objectBounds))
+			return;
 
 		// Max triangles exceeded
 		if (currentBatch->numObjects && currentBatch->mesh.numIndices + mesh->numIndices >= MAX_BATCH_INDICES)
