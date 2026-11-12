@@ -3,6 +3,8 @@
 #include "Asset/VertexBuffer.hpp"
 #include "Type/MatrixType.hpp"
 
+#include <QSet>
+
 namespace CppProject
 {
 	struct VertexBuffer;
