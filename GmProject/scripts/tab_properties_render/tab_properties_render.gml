@@ -14,13 +14,13 @@ function tab_properties_render()
 	draw_button_menu("projectrendersettings", e_menu.LIST, dx, dy, dw, 24, project_render_settings, text, action_project_render_settings)
 	tab_next()
 	
-	if (project_render_settings != "")
-		return 0
-	
 	// Conservative occlusion culling prototype
 	tab_control_switch()
 	draw_switch("renderocclusion", dx, dy, project_render_occlusion, action_project_render_occlusion)
 	tab_next()
+	
+	if (project_render_settings != "")
+		return 0
 	
 	dy += 8
 	
