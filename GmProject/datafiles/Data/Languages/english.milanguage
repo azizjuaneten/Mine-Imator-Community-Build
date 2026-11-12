@@ -2559,6 +2559,7 @@
 	"render/": {
 		"samples": "Samples",
 		"distance": "Render distance",
+		"occlusion": "Occlusion culling",
 		"distancetip": "The distance where rendered objects are cut off. Also determines the maximum fog distance.",
 		"ssao": "Ambient occlusion",
 		"ssaotip": "Darkens areas that are less exposed to light.",
