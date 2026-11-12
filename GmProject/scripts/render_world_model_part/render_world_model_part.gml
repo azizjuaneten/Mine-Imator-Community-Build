@@ -200,29 +200,37 @@ function render_world_model_part(part, res, texnamemap, shapevbuffermap, colorna
 			if (shape.description = "helmet")
 			{
 				if (sprite_exists(select.armor_skin_array[0]))
-					occlusion_texture = select.armor_skin_array[0]
-					render_set_texture(select.armor_skin_array[0])
+					{
+						occlusion_texture = select.armor_skin_array[0]
+						render_set_texture(select.armor_skin_array[0])
+					}
 			}
 			
 			if (shape.description = "chestplate")
 			{
 				if (sprite_exists(select.armor_skin_array[1]))
-					occlusion_texture = select.armor_skin_array[1]
-					render_set_texture(select.armor_skin_array[1])
+					{
+						occlusion_texture = select.armor_skin_array[1]
+						render_set_texture(select.armor_skin_array[1])
+					}
 			}
 			
 			if (shape.description = "leggings")
 			{
 				if (sprite_exists(select.armor_skin_array[2]))
-					occlusion_texture = select.armor_skin_array[2]
-					render_set_texture(select.armor_skin_array[2])
+					{
+						occlusion_texture = select.armor_skin_array[2]
+						render_set_texture(select.armor_skin_array[2])
+					}
 			}
 			
 			if (shape.description = "boots")
 			{
 				if (sprite_exists(select.armor_skin_array[3]))
-					occlusion_texture = select.armor_skin_array[3]
-					render_set_texture(select.armor_skin_array[3])
+					{
+						occlusion_texture = select.armor_skin_array[3]
+						render_set_texture(select.armor_skin_array[3])
+					}
 			}
 		}
 		
@@ -231,29 +239,37 @@ function render_world_model_part(part, res, texnamemap, shapevbuffermap, colorna
 			if (shape.description = "helmet")
 			{
 				if (sprite_exists(tlobject.temp.armor_skin_array[0]))
-						occlusion_texture = tlobject.temp.armor_skin_array[0]
-					render_set_texture(tlobject.temp.armor_skin_array[0])
+{
+	occlusion_texture = tlobject.temp.armor_skin_array[0]
+	render_set_texture(tlobject.temp.armor_skin_array[0])
+}
 			}
 			
 			if (shape.description = "chestplate")
 			{
 				if (sprite_exists(tlobject.temp.armor_skin_array[1]))
-						occlusion_texture = tlobject.temp.armor_skin_array[1]
-					render_set_texture(tlobject.temp.armor_skin_array[1])
+{
+	occlusion_texture = tlobject.temp.armor_skin_array[1]
+	render_set_texture(tlobject.temp.armor_skin_array[1])
+}
 			}
 			
 			if (shape.description = "leggings")
 			{
 				if (sprite_exists(tlobject.temp.armor_skin_array[2]))
-						occlusion_texture = tlobject.temp.armor_skin_array[2]
-					render_set_texture(tlobject.temp.armor_skin_array[2])
+{
+	occlusion_texture = tlobject.temp.armor_skin_array[2]
+	render_set_texture(tlobject.temp.armor_skin_array[2])
+}
 			}
 			
 			if (shape.description = "boots")
 			{
 				if (sprite_exists(tlobject.temp.armor_skin_array[3]))
-						occlusion_texture = tlobject.temp.armor_skin_array[3]
-					render_set_texture(tlobject.temp.armor_skin_array[3])
+{
+	occlusion_texture = tlobject.temp.armor_skin_array[3]
+	render_set_texture(tlobject.temp.armor_skin_array[3])
+}
 			}
 		}
 		
