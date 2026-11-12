@@ -22,6 +22,15 @@ function tab_properties_render()
 	{
 		draw_text(dx, dy, "Occlusion: " + string(occlusion_get_tested()) + " tested / " + string(occlusion_get_culled()) + " hidden")
 		tab_next()
+		
+		if (surface_exists(render_surface_occlusion))
+		{
+			draw_text(dx, dy, "Occlusion depth preview")
+			tab_next()
+			draw_surface_stretched_ext(render_surface_occlusion, dx, dy, dw, 90, c_white, 1)
+			dy += 90
+			tab_next()
+		}
 	}
 	
 	if (project_render_settings != "")
