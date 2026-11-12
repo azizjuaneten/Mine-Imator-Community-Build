@@ -14,6 +14,24 @@ function render_high_passes()
 		render_surface_normal = surface_require(render_surface_normal, render_width, render_height, true, true)
 	}
 	
+	// Build same-camera opaque depth and visibility queries before the primary color pass.
+	if (project_render_occlusion)
+	{
+		render_surface_occlusion = surface_require(render_surface_occlusion, render_width, render_height, true, false)
+		surface_set_target(render_surface_occlusion)
+		{
+			draw_clear_alpha(c_black, 0)
+			render_world_start()
+			occlusion_set_stage(e_occlusion_stage.OCCLUDER)
+			render_world(e_render_mode.OCCLUSION_DEPTH)
+			occlusion_set_stage(e_occlusion_stage.QUERY)
+			render_world(e_render_mode.OCCLUSION_QUERY)
+			occlusion_set_stage(e_occlusion_stage.CULL)
+			render_world_done()
+		}
+		surface_reset_target()
+	}
+	
 	// Clear specular
 	surface_set_target(render_surface_specular)
 	{
@@ -31,7 +49,11 @@ function render_high_passes()
 		// World
 		render_world_start()
 		render_world_sky()
+		if (project_render_occlusion)
+			occlusion_set_stage(e_occlusion_stage.CULL)
 		render_world(e_render_mode.COLOR)
+		if (project_render_occlusion)
+			occlusion_set_stage(e_occlusion_stage.OFF)
 		render_world_done()
 		
 		// 2D mode
