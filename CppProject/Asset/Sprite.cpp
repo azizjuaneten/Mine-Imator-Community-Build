@@ -81,6 +81,18 @@ namespace CppProject
 			delete frame;
 	}
 
+	BoolType Sprite::IsOpaque() const
+	{
+		if (frames.isEmpty())
+			return false;
+
+		for (const Frame* frame : frames)
+			if (!frame->IsOpaque())
+				return false;
+
+		return true;
+	}
+
 	IntType Sprite::GetTexture(IntType index)
 	{
 		if (index >= frames.size())
@@ -106,6 +118,19 @@ namespace CppProject
 
 	Sprite::Frame::Frame(QImage image, bool toPage) : image(image)
 	{
+		// Decide once while the CPU image is available; texture pages may discard it.
+		opaque = !image.isNull();
+		if (opaque && image.hasAlphaChannel())
+		{
+			for (IntType y = 0; y < image.height() && opaque; y++)
+				for (IntType x = 0; x < image.width(); x++)
+					if (qAlpha(image.pixel((int)x, (int)y)) != 255)
+					{
+						opaque = false;
+						break;
+					}
+		}
+
 		if (toPage)
 		{
 			// Check if image is supported for a texture page
