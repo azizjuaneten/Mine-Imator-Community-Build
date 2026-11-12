@@ -888,7 +888,9 @@ function enums()
 		AO_MASK,
 		MATERIAL,
 		SUBSURFACE,
-		GLINT
+		GLINT,
+		OCCLUSION_DEPTH,
+		OCCLUSION_QUERY
 	}
 	
 	// Viewport render mode
