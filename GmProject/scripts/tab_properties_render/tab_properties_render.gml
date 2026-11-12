@@ -18,6 +18,11 @@ function tab_properties_render()
 	tab_control_switch()
 	draw_switch("renderocclusion", dx, dy, project_render_occlusion, action_project_render_occlusion)
 	tab_next()
+	if (project_render_occlusion)
+	{
+		draw_text(dx, dy, "Occlusion: " + string(occlusion_get_tested()) + " tested / " + string(occlusion_get_culled()) + " hidden")
+		tab_next()
+	}
 	
 	if (project_render_settings != "")
 		return 0
