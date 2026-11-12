@@ -7,6 +7,7 @@ function project_load_render(map)
 	
 	project_render_samples = value_get_real(map[?"render_samples"], project_render_samples)
 	project_render_distance = value_get_real(map[?"render_distance"], project_render_distance)
+	project_render_occlusion = value_get_real(map[?"render_occlusion"], project_render_occlusion)
 	
 	project_render_ssao = value_get_real(map[?"render_ssao"], project_render_ssao)
 	project_render_ssao_radius = value_get_real(map[?"render_ssao_radius"], project_render_ssao_radius)

@@ -81,6 +81,18 @@ namespace CppProject
 			delete frame;
 	}
 
+	BoolType Sprite::IsOpaque() const
+	{
+		if (frames.isEmpty())
+			return false;
+
+		for (const Frame* frame : frames)
+			if (!frame->IsOpaque())
+				return false;
+
+		return true;
+	}
+
 	IntType Sprite::GetTexture(IntType index)
 	{
 		if (index >= frames.size())
@@ -112,6 +124,60 @@ namespace CppProject
 			if (pageLoc = TexturePage::Add(image))
 				this->image = QImage();
 		}
+	}
+
+	BoolType Sprite::Frame::IsOpaque() const
+	{
+		if (opacityChecked)
+			return opaque;
+
+		opacityChecked = true;
+		opaque = false;
+
+		const QImage* source = &image;
+		QRect sourceRect(QPoint(0, 0), image.size());
+		if (pageLoc && pageLoc->page)
+		{
+			source = &pageLoc->page->image;
+			sourceRect = pageLoc->rect;
+		}
+
+		if (source->isNull())
+			return opaque;
+
+		opaque = true;
+		if (!source->hasAlphaChannel())
+			return opaque;
+
+		// Below 75% opacity, the texture is treated as transparent for this prototype.
+		constexpr uchar MIN_OCCLUDER_ALPHA = 192;
+		const QImage::Format format = source->format();
+		if (format == QImage::Format_RGBA8888 || format == QImage::Format_RGBA8888_Premultiplied)
+		{
+			for (IntType y = 0; y < sourceRect.height() && opaque; y++)
+			{
+				const uchar* row = source->constScanLine(sourceRect.y() + (int)y) + sourceRect.x() * 4;
+				for (IntType x = 0; x < sourceRect.width(); x++)
+					if (row[x * 4 + 3] < MIN_OCCLUDER_ALPHA)
+					{
+						opaque = false;
+						break;
+					}
+			}
+		}
+		else
+		{
+			// Keep uncommon QImage formats correct, including indexed alpha.
+			for (IntType y = 0; y < sourceRect.height() && opaque; y++)
+				for (IntType x = 0; x < sourceRect.width(); x++)
+					if (qAlpha(source->pixel(sourceRect.x() + (int)x, sourceRect.y() + (int)y)) < MIN_OCCLUDER_ALPHA)
+					{
+						opaque = false;
+						break;
+					}
+		}
+
+		return opaque;
 	}
 
 	Sprite::Frame::~Frame()

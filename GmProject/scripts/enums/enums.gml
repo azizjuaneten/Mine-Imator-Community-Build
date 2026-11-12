@@ -851,6 +851,15 @@ function enums()
 		YOUTUBE
 	}
 	
+	// Occlusion-culling rendering stages
+	enum e_occlusion_stage
+	{
+		OFF,
+		OCCLUDER,
+		QUERY,
+		CULL
+	}
+
 	// Render modes
 	enum e_render_mode
 	{
@@ -879,7 +888,9 @@ function enums()
 		AO_MASK,
 		MATERIAL,
 		SUBSURFACE,
-		GLINT
+		GLINT,
+		OCCLUSION_DEPTH,
+		OCCLUSION_QUERY
 	}
 	
 	// Viewport render mode

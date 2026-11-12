@@ -19,9 +19,11 @@ namespace CppProject
 
 		// Returns the QOpenGLTexture/TexturePageLocation ID of a sprite frame.
 		IntType GetTexture(IntType frame);
-
 		// Returns the color of a pixel in the given frame.
 		QColor GetPixel(IntType frame, QPoint point) const;
+
+		// Returns whether every pixel in every frame is fully opaque.
+		BoolType IsOpaque() const;
 
 		// Sprite frame
 		struct Frame
@@ -33,6 +35,9 @@ namespace CppProject
 			bool MoveToTexturePage();
 
 			QImage image;
+			BoolType IsOpaque() const;
+			mutable BoolType opaque = false;
+			mutable BoolType opacityChecked = false;
 			TexturePageLocation* pageLoc = nullptr;
 			Texture* texture = nullptr;
 		};

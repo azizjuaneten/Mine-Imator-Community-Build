@@ -6,6 +6,7 @@ function project_save_render()
 		
 		json_save_var("render_samples", project_render_samples)
 		json_save_var("render_distance", project_render_distance)
+		json_save_var_bool("render_occlusion", project_render_occlusion)
 		
 		json_save_var_bool("render_ssao", project_render_ssao)
 		json_save_var("render_ssao_radius", project_render_ssao_radius)

@@ -14,6 +14,25 @@ function tab_properties_render()
 	draw_button_menu("projectrendersettings", e_menu.LIST, dx, dy, dw, 24, project_render_settings, text, action_project_render_settings)
 	tab_next()
 	
+	// Conservative occlusion culling prototype
+	tab_control_switch()
+	draw_switch("renderocclusion", dx, dy, project_render_occlusion, action_project_render_occlusion)
+	tab_next()
+	if (project_render_occlusion)
+	{
+		draw_text(dx, dy, "Occlusion: " + string(occlusion_get_tested()) + " tested / " + string(occlusion_get_culled()) + " hidden")
+		tab_next()
+		
+		if (surface_exists(render_surface_occlusion))
+		{
+			draw_text(dx, dy, "Occlusion depth preview")
+			tab_next()
+			draw_surface_stretched_ext(render_surface_occlusion, dx, dy, dw, 90, c_white, 1)
+			dy += 90
+			tab_next()
+		}
+	}
+	
 	if (project_render_settings != "")
 		return 0
 	

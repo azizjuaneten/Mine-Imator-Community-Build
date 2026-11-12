@@ -158,6 +158,13 @@ namespace CppProject
 		return -1;
 	}
 
+	BoolType sprite_is_opaque(IntType id)
+	{
+		if (Sprite* spr = FindSprite(id))
+			return spr->IsOpaque();
+		return false;
+	}
+
 	IntType sprite_get_texture(IntType id, IntType subimg)
 	{
 		if (id == 0)

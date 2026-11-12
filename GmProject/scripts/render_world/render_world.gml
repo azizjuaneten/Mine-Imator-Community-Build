@@ -34,7 +34,9 @@ function render_world(mode)
 		render_mode != e_render_mode.PLACE &&
 		render_mode != e_render_mode.HIGH_LIGHT_SUN_DEPTH &&
 		render_mode != e_render_mode.HIGH_LIGHT_SPOT_DEPTH &&
-		render_mode != e_render_mode.HIGH_LIGHT_POINT_DEPTH)
+		render_mode != e_render_mode.HIGH_LIGHT_POINT_DEPTH &&
+		render_mode != e_render_mode.OCCLUSION_DEPTH &&
+		render_mode != e_render_mode.OCCLUSION_QUERY)
 	{
 		render_world_tl_reset()
 		render_world_ground()

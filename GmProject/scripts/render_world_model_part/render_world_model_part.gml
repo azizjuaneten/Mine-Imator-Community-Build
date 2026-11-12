@@ -19,7 +19,7 @@ function render_world_model_part(part, res, texnamemap, shapevbuffermap, colorna
 	if (!tlobject)
 		mat = matrix_get(matrix_world)
 	
-	var shape, texobj, blendcolor, alpha;
+	var shape, texobj, blendcolor, alpha, occlusion_texture;
 	texobj = null
 	blendcolor = null
 	alpha = null
@@ -29,6 +29,7 @@ function render_world_model_part(part, res, texnamemap, shapevbuffermap, colorna
 	for (var s = 0; s < ds_list_size(part.shape_list); s++)
 	{
 		shape = part.shape_list[|s]
+		occlusion_texture = -1
 		
 		// Hidden?
 		if (shapehidelist != null && ds_list_find_index(shapehidelist, shape.description) > -1)
@@ -60,6 +61,7 @@ function render_world_model_part(part, res, texnamemap, shapevbuffermap, colorna
 			if (s > array_length(model_part_shape_tex) - 1)
 				continue
 			
+			occlusion_texture = model_part_shape_tex[s]
 			render_set_texture(model_part_shape_tex[s])
 			
 			render_set_uniform_vec2("uTextureOffset",
@@ -136,6 +138,7 @@ function render_world_model_part(part, res, texnamemap, shapevbuffermap, colorna
 			with (res)
 			{
 				texobj = res_get_model_texture(shapetexname)
+				occlusion_texture = texobj
 				render_set_texture(texobj)
 			}
 		}
@@ -146,7 +149,10 @@ function render_world_model_part(part, res, texnamemap, shapevbuffermap, colorna
 		if (object_index = obj_preview && select.pattern_type != "")
 		{
 			if (sprite_exists(select.pattern_skin))
+			{
+				occlusion_texture = select.pattern_skin
 				render_set_texture(select.pattern_skin)
+			}
 		}
 		
 		if (tlobject != null)
@@ -162,7 +168,10 @@ function render_world_model_part(part, res, texnamemap, shapevbuffermap, colorna
 				
 				if (res = tempres)
 					if (sprite_exists(tlobject.pattern_skin))
+					{
+						occlusion_texture = tlobject.pattern_skin
 						render_set_texture(tlobject.pattern_skin)
+					}
 			}
 			else if (tlobject.temp.pattern_type != "")
 			{
@@ -174,7 +183,10 @@ function render_world_model_part(part, res, texnamemap, shapevbuffermap, colorna
 				
 				if (res = tempres)
 					if (sprite_exists(tlobject.temp.pattern_skin))
-						render_set_texture(tlobject.temp.pattern_skin)
+						{
+							occlusion_texture = tlobject.temp.pattern_skin
+							render_set_texture(tlobject.temp.pattern_skin)
+						}
 			}
 		}
 		
@@ -188,25 +200,37 @@ function render_world_model_part(part, res, texnamemap, shapevbuffermap, colorna
 			if (shape.description = "helmet")
 			{
 				if (sprite_exists(select.armor_skin_array[0]))
-					render_set_texture(select.armor_skin_array[0])
+					{
+						occlusion_texture = select.armor_skin_array[0]
+						render_set_texture(select.armor_skin_array[0])
+					}
 			}
 			
 			if (shape.description = "chestplate")
 			{
 				if (sprite_exists(select.armor_skin_array[1]))
-					render_set_texture(select.armor_skin_array[1])
+					{
+						occlusion_texture = select.armor_skin_array[1]
+						render_set_texture(select.armor_skin_array[1])
+					}
 			}
 			
 			if (shape.description = "leggings")
 			{
 				if (sprite_exists(select.armor_skin_array[2]))
-					render_set_texture(select.armor_skin_array[2])
+					{
+						occlusion_texture = select.armor_skin_array[2]
+						render_set_texture(select.armor_skin_array[2])
+					}
 			}
 			
 			if (shape.description = "boots")
 			{
 				if (sprite_exists(select.armor_skin_array[3]))
-					render_set_texture(select.armor_skin_array[3])
+					{
+						occlusion_texture = select.armor_skin_array[3]
+						render_set_texture(select.armor_skin_array[3])
+					}
 			}
 		}
 		
@@ -215,25 +239,37 @@ function render_world_model_part(part, res, texnamemap, shapevbuffermap, colorna
 			if (shape.description = "helmet")
 			{
 				if (sprite_exists(tlobject.temp.armor_skin_array[0]))
-					render_set_texture(tlobject.temp.armor_skin_array[0])
+{
+	occlusion_texture = tlobject.temp.armor_skin_array[0]
+	render_set_texture(tlobject.temp.armor_skin_array[0])
+}
 			}
 			
 			if (shape.description = "chestplate")
 			{
 				if (sprite_exists(tlobject.temp.armor_skin_array[1]))
-					render_set_texture(tlobject.temp.armor_skin_array[1])
+{
+	occlusion_texture = tlobject.temp.armor_skin_array[1]
+	render_set_texture(tlobject.temp.armor_skin_array[1])
+}
 			}
 			
 			if (shape.description = "leggings")
 			{
 				if (sprite_exists(tlobject.temp.armor_skin_array[2]))
-					render_set_texture(tlobject.temp.armor_skin_array[2])
+{
+	occlusion_texture = tlobject.temp.armor_skin_array[2]
+	render_set_texture(tlobject.temp.armor_skin_array[2])
+}
 			}
 			
 			if (shape.description = "boots")
 			{
 				if (sprite_exists(tlobject.temp.armor_skin_array[3]))
-					render_set_texture(tlobject.temp.armor_skin_array[3])
+{
+	occlusion_texture = tlobject.temp.armor_skin_array[3]
+	render_set_texture(tlobject.temp.armor_skin_array[3])
+}
 			}
 		}
 		
@@ -318,6 +354,29 @@ function render_world_model_part(part, res, texnamemap, shapevbuffermap, colorna
 			rotz = 90 + point_direction(rendermatrix[MAT_X], rendermatrix[MAT_Y], proj_from[X], proj_from[Y])
 			rotmat = matrix_build(0, 0, 0, rotx, 0, rotz, 1, 1, 1)
 			rendermatrix = matrix_multiply(rotmat, rendermatrix)
+		}
+		
+		// The query pass only uses provably opaque geometry. Moving or blended
+		// shapes stay in the regular draw path and can never be culled by this prototype.
+		if (render_mode = e_render_mode.OCCLUSION_DEPTH || render_mode = e_render_mode.OCCLUSION_QUERY)
+		{
+			var occlusion_eligible = sprite_exists(occlusion_texture) &&
+				sprite_is_opaque(occlusion_texture) &&
+				alpha >= 0.999 &&
+				shape.color_alpha >= 0.999 &&
+				!shape.item_bounce &&
+				!shape.face_camera &&
+				!shape.move_required
+			
+			if (tlobject != null)
+				occlusion_eligible = occlusion_eligible &&
+					value_inherit[e_value.ALPHA] >= 0.999 &&
+					!tlobject.wind &&
+					!tlobject.wind_terrain &&
+					!tlobject.glow
+			
+			if (!occlusion_eligible)
+				continue
 		}
 		
 		// Pick vertex buffer from map if available

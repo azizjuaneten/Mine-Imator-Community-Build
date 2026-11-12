@@ -204,6 +204,22 @@ namespace CppProject
 		GFX->SetDepthWrite(enabled);
 	}
 
+	void occlusion_set_stage(IntType stage)
+	{
+		if (VB)
+			VB->SetOcclusionStage(stage);
+	}
+
+	IntType occlusion_get_tested()
+	{
+		return VB ? VB->occlusionTested : 0;
+	}
+
+	IntType occlusion_get_culled()
+	{
+		return VB ? VB->occlusionCulled : 0;
+	}
+
 	MatrixType matrix_build_lookat(RealType xfrom, RealType yfrom, RealType zfrom, RealType xto, RealType yto, RealType zto, RealType xup, RealType yup, RealType zup)
 	{
 		return Matrix::LookAt(
