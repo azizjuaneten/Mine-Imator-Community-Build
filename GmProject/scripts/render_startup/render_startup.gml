@@ -98,7 +98,7 @@ function render_startup()
 	render_repeat = vec3(0)
 	
 	// Surfaces for rendering
-	globalvar render_target, render_surface, render_surface_hdr, render_surface_depth, render_surface_normal, render_surface_emissive, 
+	globalvar render_target, render_surface, render_surface_hdr, render_surface_depth, render_surface_normal, render_surface_emissive, render_surface_occlusion, 
 			  render_surface_diffuse, render_surface_material, render_surface_shadows, render_surface_specular, render_surface_lens, 
 			  render_surface_sample_expo, render_surface_sample_dec, render_surface_sample_alpha, depth_near, depth_far, render_post_index;
 	
@@ -112,6 +112,7 @@ function render_startup()
 	render_surface_hdr[2] = null
 	
 	render_surface_depth = null
+	render_surface_occlusion = null
 	render_surface_normal = null
 	render_surface_material = null
 	render_surface_emissive = null
