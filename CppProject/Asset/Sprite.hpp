@@ -23,6 +23,9 @@ namespace CppProject
 		// Returns the color of a pixel in the given frame.
 		QColor GetPixel(IntType frame, QPoint point) const;
 
+		// Returns whether every pixel in every frame is fully opaque.
+		BoolType IsOpaque() const;
+
 		// Sprite frame
 		struct Frame
 		{
