@@ -12,6 +12,10 @@ namespace CppProject
 	struct VertexBufferRenderer
 	{
 		VertexBufferRenderer();
+		~VertexBufferRenderer();
+
+		// Sets the optional occlusion-culling stage (off, occluder, query, cull).
+		void SetOcclusionStage(IntType stage);
 
 		// Adds an object to the queue with the current uniform settings.
 		void Add(VertexBuffer* buffer);
@@ -53,5 +57,25 @@ namespace CppProject
 		IntType batchesCreated = 0;
 		IntType batchesCopied = 0;
 		IntType trianglesSubmitted = 0;
+
+		struct OcclusionQuery
+		{
+		#if API_D3D11
+			ID3D11Query* query = nullptr;
+		#else
+			GLuint query = 0;
+		#endif
+		};
+
+		QHash<quint64, OcclusionQuery*> occlusionQueries;
+		QHash<quint64, BoolType> occlusionResults;
+		QVector<quint64> occlusionPending;
+		QSet<quint64> occlusionUsed;
+		IntType occlusionStage = 0;
+		BoolType depthWriteBeforeQueries = false;
+
+		quint64 GetOcclusionKey(const VertexBuffer* buffer) const;
+		OcclusionQuery* GetOcclusionQuery(quint64 key);
+		void ResolveOcclusionQueries();
 	};
 }
