@@ -118,7 +118,9 @@ namespace CppProject
 
 	Sprite::Frame::Frame(QImage image, bool toPage) : image(image)
 	{
-		// Decide once while the CPU image is available; texture pages may discard it.
+		// Treat pixels below 75% opacity as transparent for conservative occluder classification.
+		// Minor alpha variations from antialiased edges are ignored for this experiment.
+		constexpr uchar MIN_OCCLUDER_ALPHA = 192;
 		opaque = !image.isNull();
 		if (opaque && image.hasAlphaChannel())
 		{
@@ -126,12 +128,12 @@ namespace CppProject
 			if (format == QImage::Format_RGBA8888 || format == QImage::Format_RGBA8888_Premultiplied)
 			{
 				// The common RGBA formats store alpha in the final byte; scanning
-					// scanlines avoids the per-pixel conversion performed by QImage::pixel().
+				// scanlines avoids the per-pixel conversion performed by QImage::pixel().
 				for (IntType y = 0; y < image.height() && opaque; y++)
 				{
 					const uchar* row = image.constScanLine((int)y);
 					for (IntType x = 0; x < image.width(); x++)
-						if (row[x * 4 + 3] != 255)
+						if (row[x * 4 + 3] < MIN_OCCLUDER_ALPHA)
 						{
 							opaque = false;
 							break;
@@ -143,7 +145,7 @@ namespace CppProject
 				// Keep uncommon QImage formats correct, including indexed alpha.
 				for (IntType y = 0; y < image.height() && opaque; y++)
 					for (IntType x = 0; x < image.width(); x++)
-						if (qAlpha(image.pixel((int)x, (int)y)) != 255)
+						if (qAlpha(image.pixel((int)x, (int)y)) < MIN_OCCLUDER_ALPHA)
 						{
 							opaque = false;
 							break;
