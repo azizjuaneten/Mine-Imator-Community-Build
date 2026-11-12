@@ -37,7 +37,11 @@ function render_low()
 		// World
 		render_world_start()
 		render_world_sky()
+		if (project_render_occlusion)
+			occlusion_set_stage(e_occlusion_stage.CULL)
 		render_world(render_lights ? e_render_mode.COLOR_FOG_LIGHTS : e_render_mode.COLOR_FOG)
+		if (project_render_occlusion)
+			occlusion_set_stage(e_occlusion_stage.OFF)
 		render_world_done()
 		
 		// Alpha fix
