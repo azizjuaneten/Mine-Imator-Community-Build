@@ -35,8 +35,9 @@ namespace CppProject
 			bool MoveToTexturePage();
 
 			QImage image;
-			BoolType IsOpaque() const { return opaque; }
-			BoolType opaque = false;
+			BoolType IsOpaque() const;
+			mutable BoolType opaque = false;
+			mutable BoolType opacityChecked = false;
 			TexturePageLocation* pageLoc = nullptr;
 			Texture* texture = nullptr;
 		};
