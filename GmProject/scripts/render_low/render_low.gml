@@ -4,6 +4,23 @@
 function render_low()
 {
 	var surf, finalsurf;
+	if (project_render_occlusion)
+	{
+		render_surface_occlusion = surface_require(render_surface_occlusion, render_width, render_height, true, false)
+		surface_set_target(render_surface_occlusion)
+		{
+			draw_clear_alpha(c_black, 0)
+			render_world_start()
+			occlusion_set_stage(e_occlusion_stage.OCCLUDER)
+			render_world(e_render_mode.OCCLUSION_DEPTH)
+			occlusion_set_stage(e_occlusion_stage.QUERY)
+			render_world(e_render_mode.OCCLUSION_QUERY)
+			occlusion_set_stage(e_occlusion_stage.CULL)
+			render_world_done()
+		}
+		surface_reset_target()
+	}
+	
 	render_surface[0] = surface_require(render_surface[0], render_width, render_height)
 	surf = render_surface[0]
 	
