@@ -74,6 +74,8 @@ namespace CppProject
 		QVector<quint64> occlusionPending;
 		QSet<quint64> occlusionUsed;
 		IntType occlusionStage = 0;
+		IntType occlusionTested = 0;
+		IntType occlusionCulled = 0;
 		BoolType depthWriteBeforeQueries = false;
 
 		quint64 GetOcclusionKey(const VertexBuffer* buffer) const;
