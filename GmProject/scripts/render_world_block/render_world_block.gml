@@ -132,7 +132,7 @@ function render_world_block(vbuffer, res, rotate = false, size = undefined, temp
 	#endregion
 
 	// The opaque depth class is the only block class allowed to occlude.
-	if (render_mode = e_render_mode.OCCLUSION_DEPTH)
+	if (render_mode = e_render_mode.OCCLUSION_DEPTH || render_mode = e_render_mode.OCCLUSION_QUERY)
 		return 0
 	
 	#region Depth 1
