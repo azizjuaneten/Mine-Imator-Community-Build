@@ -7,7 +7,7 @@ function render_world_block_map(modelmap, res)
 {
 	var key;
 	
-	if (modelmap = null)
+	if (modelmap = null || render_mode = e_render_mode.OCCLUSION_DEPTH || render_mode = e_render_mode.OCCLUSION_QUERY)
 		return 0
 	
 	key = ds_map_find_first(modelmap)
