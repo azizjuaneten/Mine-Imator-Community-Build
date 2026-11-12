@@ -122,13 +122,33 @@ namespace CppProject
 		opaque = !image.isNull();
 		if (opaque && image.hasAlphaChannel())
 		{
-			for (IntType y = 0; y < image.height() && opaque; y++)
-				for (IntType x = 0; x < image.width(); x++)
-					if (qAlpha(image.pixel((int)x, (int)y)) != 255)
-					{
-						opaque = false;
-						break;
-					}
+			const QImage::Format format = image.format();
+			if (format == QImage::Format_RGBA8888 || format == QImage::Format_RGBA8888_Premultiplied)
+			{
+				// The common RGBA formats store alpha in the final byte; scanning
+					// scanlines avoids the per-pixel conversion performed by QImage::pixel().
+				for (IntType y = 0; y < image.height() && opaque; y++)
+				{
+					const uchar* row = image.constScanLine((int)y);
+					for (IntType x = 0; x < image.width(); x++)
+						if (row[x * 4 + 3] != 255)
+						{
+							opaque = false;
+							break;
+						}
+				}
+			}
+			else
+			{
+				// Keep uncommon QImage formats correct, including indexed alpha.
+				for (IntType y = 0; y < image.height() && opaque; y++)
+					for (IntType x = 0; x < image.width(); x++)
+						if (qAlpha(image.pixel((int)x, (int)y)) != 255)
+						{
+							opaque = false;
+							break;
+						}
+			}
 		}
 
 		if (toPage)
